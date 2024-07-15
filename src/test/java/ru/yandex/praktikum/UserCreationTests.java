@@ -17,8 +17,8 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class UserCreationTests {
 
-    private UserSteps userSteps = new UserSteps();
-    private Faker faker = new Faker();
+    private final UserSteps userSteps = new UserSteps();
+    private final Faker faker = new Faker();
     private String token;
 
     @Before

@@ -36,3 +36,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Exclude specific IDEA files
+.idea/encodings.xml
+.idea/misc.xml
+.idea/Project_Default.xml
+.idea/vcs.xml
