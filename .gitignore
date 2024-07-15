@@ -40,5 +40,5 @@ build/
 # Exclude specific IDEA files
 .idea/encodings.xml
 .idea/misc.xml
-.idea/Project_Default.xml
+.idea/inspectionProfiles/Project_Default.xml
 .idea/vcs.xml
