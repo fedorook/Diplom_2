@@ -26,7 +26,7 @@ public class UserLoginTests {
     @Before
     public void setUp() {
         RestConfig.init();
-        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter()); // Can omit if logging is not needed
+        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
 
         // Create an existing user for login tests
         existingUser = new User(faker.internet().emailAddress(), faker.internet().password(), faker.name().fullName());
@@ -52,6 +52,18 @@ public class UserLoginTests {
     @DisplayName("Login with invalid password")
     public void loginWithInvalidPassword() {
         ValidatableResponse response = userSteps.loginUser(existingUser.getEmail(), faker.internet().password());
+        response.statusCode(401).body("message", equalTo("email or password are incorrect"));
+    }
+
+    @Test
+    @DisplayName("Login with deleted user")
+    public void loginWithDeletedUser() {
+        // Delete the user
+        userSteps.deleteUser(token);
+        token = null;  // Prevent deletion attempt in tearDown
+
+        // Try to login with deleted user credentials
+        ValidatableResponse response = userSteps.loginUser(existingUser.getEmail(), existingUser.getPassword());
         response.statusCode(401).body("message", equalTo("email or password are incorrect"));
     }
 }
