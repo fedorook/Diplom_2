@@ -24,7 +24,7 @@ public class UserCreationTests {
     @Before
     public void setUp() {
         RestConfig.init();
-        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter()); // Can omit if logging is not needed
+        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
     }
 
     @After

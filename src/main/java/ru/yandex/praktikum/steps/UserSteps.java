@@ -19,7 +19,7 @@ public class UserSteps {
                 .then();
     }
 
-    @Step("Login a user")
+    @Step("Login with user credentials")
     public ValidatableResponse loginUser(String email, String password) {
         return given()
                 .contentType(ContentType.JSON)
@@ -42,5 +42,35 @@ public class UserSteps {
     @Step("Extract token from response")
     public String extractToken(ValidatableResponse response) {
         return response.extract().path("accessToken");
+    }
+
+    @Step("Update user data")
+    public ValidatableResponse updateUser(String token, User user) {
+        return given()
+                .header("Authorization", token)
+                .contentType(ContentType.JSON)
+                .body(user)
+                .when()
+                .patch("/auth/user")
+                .then();
+    }
+
+    @Step("Update user data without authorization")
+    public ValidatableResponse updateUserWithoutAuth(User user) {
+        return given()
+                .contentType(ContentType.JSON)
+                .body(user)
+                .when()
+                .patch("/auth/user")
+                .then();
+    }
+
+    @Step("Get user data")
+    public ValidatableResponse getUserData(String token) {
+        return given()
+                .header("Authorization", token)
+                .when()
+                .get("/auth/user")
+                .then();
     }
 }
