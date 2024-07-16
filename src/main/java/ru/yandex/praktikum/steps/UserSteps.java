@@ -19,6 +19,16 @@ public class UserSteps {
                 .then();
     }
 
+    @Step("Login a user")
+    public ValidatableResponse loginUser(String email, String password) {
+        return given()
+                .contentType(ContentType.JSON)
+                .body(new User(email, password, null))
+                .when()
+                .post("/auth/login")
+                .then();
+    }
+
     @Step("Delete a user")
     public void deleteUser(String token) {
         given()
