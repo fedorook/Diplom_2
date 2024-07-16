@@ -1,7 +1,7 @@
 package ru.yandex.praktikum;
 
 import com.github.javafaker.Faker;
-import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -35,7 +35,7 @@ public class UserCreationTests {
     }
 
     @Test
-    @Step("Create a unique user")
+    @DisplayName("Create a unique user")
     public void createUniqueUser() {
         User user = new User(faker.internet().emailAddress(), faker.internet().password(), faker.name().fullName());
 
@@ -45,7 +45,7 @@ public class UserCreationTests {
     }
 
     @Test
-    @Step("Create a user that is already registered")
+    @DisplayName("Create a user that is already registered")
     public void createUserAlreadyRegistered() {
         User user = new User(faker.internet().emailAddress(), faker.internet().password(), faker.name().fullName());
 
@@ -58,9 +58,27 @@ public class UserCreationTests {
     }
 
     @Test
-    @Step("Create a user without a required field")
-    public void createUserWithoutRequiredField() {
-        User user = new User("", faker.internet().password(), "");
+    @DisplayName("Create a user without a required field - email")
+    public void createUserWithoutEmail() {
+        User user = new User("", faker.internet().password(), faker.name().fullName());
+
+        ValidatableResponse response = userSteps.createUser(user);
+        response.statusCode(403).body("message", equalTo("Email, password and name are required fields"));
+    }
+
+    @Test
+    @DisplayName("Create a user without a required field - password")
+    public void createUserWithoutPassword() {
+        User user = new User(faker.internet().emailAddress(), "", faker.name().fullName());
+
+        ValidatableResponse response = userSteps.createUser(user);
+        response.statusCode(403).body("message", equalTo("Email, password and name are required fields"));
+    }
+
+    @Test
+    @DisplayName("Create a user without a required field - name")
+    public void createUserWithoutName() {
+        User user = new User(faker.internet().emailAddress(), faker.internet().password(), "");
 
         ValidatableResponse response = userSteps.createUser(user);
         response.statusCode(403).body("message", equalTo("Email, password and name are required fields"));
