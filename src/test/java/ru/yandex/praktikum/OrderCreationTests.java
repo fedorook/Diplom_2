@@ -76,5 +76,6 @@ public class OrderCreationTests {
     @DisplayName("Create an order with invalid ingredient hash")
     public void createOrderWithInvalidHash() {
         ValidatableResponse response = orderSteps.createOrderWithInvalidHash(userToken);
-        response.statusCode(500).body(containsString("Internal Server Error"));    }
+        response.statusCode(500).body(containsString("Internal Server Error"));
+    }
 }
