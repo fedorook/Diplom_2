@@ -53,4 +53,23 @@ public class OrderSteps {
                 .post("orders")
                 .then();
     }
+
+    @Step("Get user's orders with authorization")
+    public ValidatableResponse getUserOrdersWithAuth(String token) {
+        return given()
+                .header("Authorization", token)
+                .contentType(ContentType.JSON)
+                .when()
+                .get("orders")
+                .then();
+    }
+
+    @Step("Get user's orders without authorization")
+    public ValidatableResponse getUserOrdersWithoutAuth() {
+        return given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("orders")
+                .then();
+    }
 }
